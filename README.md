@@ -1,31 +1,26 @@
 # scala-training  
 This is my scala training repository. The project stored minimum application for each flameworks and services. If you want to know app details, please read each app's `Readme.md`.
 
-## How to setup a scala environment  
+## Setup a scala environment  
 This project is based on WSL(Ubuntu).  
   
-1. Install SDKMAN!  
+1. Install Scala  
 ```
-sudo apt update
-sudo apt install -y zip unzip
-curl -s "https://get.sdkman.io" | bash
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-sdk version
+curl -fL https://github.com/coursier/coursier/releases/latest/download/cs-x86_64-pc-linux.gz | gzip -d > cs && chmod +x cs && ./cs setup
 ```
   
-2. Install Java and SBT  
+2. Create new project  
 ```
-sdk install java
-java --version
-sdk install sbt
-which sbt
+sbt new scala/scala3.g8
+name [Scala 3 Project Template]: <PROJECT_NAME>
 ```
 
 
-## Applications
-| Application Name         | Summary |
+## Projects
+| Project Name         | Summary |
 | ------------------------ | ------- |
-| azure-blob-storage       | The Application manipulate files or data with Azure BLOB Storage                   |
+| Hello World       | This is a initial project of scala 3. It is just print `Hello World` in console.                   |
   
 ## Reference  
+* [Scala](https://www.scala-lang.org/)
 * [Scala研修テキスト](https://scala-text.github.io/scala_text/)
