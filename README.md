@@ -17,10 +17,10 @@ name [Scala 3 Project Template]: <PROJECT_NAME>
 
 
 ## Projects
-| Project Name | Summary |
+| Project Name | Learning Objectives |
 | --- | --- |
-| [Hello World](https://github.com/new-village/scala-training/tree/main/hello-world) | This is a initial project of scala 3. It is just print `Hello World` in console. |
-| [REST Call](https://github.com/new-village/scala-training/tree/main/rest-call) | The project learn about REST call using MAVEN libraries. |
+| [Hello World](https://github.com/new-village/scala-training/tree/main/hello-world) | Understanding Simple Scala Prject |
+| [REST Call](https://github.com/new-village/scala-training/tree/main/rest-call) | Requesting HTTP, Parsing JSON, Using libraries |
 
 ## Reference  
 * [Scala](https://www.scala-lang.org/)
