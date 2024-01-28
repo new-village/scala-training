@@ -1,47 +1,60 @@
 import sttp.client4.quick.*
 import sttp.client4.Response
 import sttp.model.Uri
-import sttp.model.StatusCode
-import ujson.*
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
-import scala.collection.mutable.Map
-import scala.collection.mutable.ListBuffer
+
 import upickle.default.*
+import scala.collection.mutable.ArrayBuffer
 
 @main def rest_call(): Unit =
-  var results = ListBuffer[ujson.Obj]()
-  if response.code == StatusCode.Ok then
-    for (i <- 0 until timeDefines.length) {
-        results += createJson(i)
-    }
-    println(ujson.Arr(results.toSeq: _*))
-  else
-    println(s"ERROR: the project get error code: ${response.code}")
+  transformData(jsonData).foreach(println)
 
 // Set initial parameters
 val area = "130000"
 val jmaUri: Uri = uri"https://www.jma.go.jp/bosai/forecast/data/forecast/${area}.json"
-val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
 
 // Get JSON response
 val response: Response[String] = quickRequest.get(jmaUri).send()
+val jsonData = ujson.read(response.body)
 
-// Extract place, timeDefines, and weathers from the JSON response
-val (place, timeDefines, weathers) = try {
-  val responseJson = ujson.read(response.body)(0)("timeSeries")(0)
-  (
-    responseJson("areas")(0)("area")("name"),
-    responseJson("timeDefines").arr.map(_.str),
-    responseJson("areas")(0)("weathers").arr.map(_.str)
-  )
-} catch {
-  case e: Exception => throw new RuntimeException("Error while processing JSON response", e)
-}
+/**
+ * The transformData function extracts specific weather information from JSON data
+ * and converts it into an ArrayBuffer of formatted strings.
+ * 
+ * @param jsonData JSON data of type ujson.Value
+ * @return ArrayBuffer[String] containing formatted weather information strings
+ */
+def transformData(jsonData: ujson.Value): ArrayBuffer[String] = {
+  val buffer = ArrayBuffer[String]()
+  val timeSeries = jsonData(0)("timeSeries")(0)
 
-def createJson(i: Int): ujson.Obj = {
-  val location = place
-  val datetime = timeDefines(i)
-  val weather = weathers(i)
-  ujson.Obj("location" -> location, "datetime" -> datetime, "weather" -> weather)
+  // Extract the relevant data from the JSON
+  timeSeries("areas").arr.foreach { area =>
+    val areaCode = area("area")("code").str
+    val location = area("area")("name").str
+    val weatherCodes = area("weatherCodes").arr.map(_.str)
+    val weathers = area("weathers").arr.map(_.str)
+    val winds = area("winds").arr.map(_.str)
+    val waves = area("waves").arr.map(_.str)
+
+    // Match timeDefines with weather, wind, and wave information
+    timeSeries("timeDefines").arr.zipWithIndex.foreach { case (time, index) =>
+      val datetime = time.str.split("T")(0)
+      val weather = if (index < weathers.length) weathers(index) else ""
+      val wind = if (index < winds.length) winds(index) else ""
+      val wave = if (index < waves.length) waves(index) else ""
+
+      // Create a formatted string for each entry
+      val entry = s"""{
+        "area_code": "$areaCode",
+        "location": "$location",
+        "datetime": "$datetime",
+        "weather": "$weather",
+        "wind": "$wind",
+        "wave": "$wave"
+      }"""
+
+      buffer += entry
+    }
+  }
+  buffer
 }
