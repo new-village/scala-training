@@ -9,5 +9,7 @@ lazy val root = project
     scalaVersion := scala3Version,
 
     libraryDependencies += "com.lihaoyi" %% "ujson" % "1.4.0",
+    libraryDependencies += "com.lihaoyi" %% "upickle" % "1.4.0",
+    libraryDependencies += "com.softwaremill.sttp.client4" %% "core" % "4.0.0-M8",
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test
   )
