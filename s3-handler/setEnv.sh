@@ -1,0 +1,6 @@
+# Get definition from IAM console
+export AWS_ACCESS_KEY_ID=<REPLACE_YOUR_VALUE>
+export AWS_SECRET_ACCESS_KEY=<REPLACE_YOUR_VALUE>
+# Get definition from S3 console
+export S3_REGION=<REPLACE_YOUR_VALUE>
+export S3_BUCKET_NAME=<REPLACE_YOUR_VALUE>

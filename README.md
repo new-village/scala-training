@@ -26,6 +26,8 @@ name [Scala 3 Project Template]: <PROJECT_NAME>
 | [Hello World](https://github.com/new-village/scala-training/tree/main/hello-world) | Understanding Simple Scala Prject |
 | [REST Call](https://github.com/new-village/scala-training/tree/main/rest-call) | Requesting HTTP, Parsing JSON, Using libraries |
 | [Hello Spark](https://github.com/new-village/scala-training/tree/main/hello-spark) | Loading CSV to Spark, Manipulating Data on Spark |
+| [S3 Handler](https://github.com/new-village/scala-training/tree/main/s3-handler) | Using log4j, AWS SDK |
+
 
 ## Reference  
 * [Scala](https://www.scala-lang.org/)
